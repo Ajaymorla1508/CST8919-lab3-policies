@@ -1,0 +1,26 @@
+{
+  "properties": {
+    "displayName": "Require ProjectName Tag",
+    "description": "Deny resources without a ProjectName tag",
+    "mode": "All",
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "defaultValue": "ProjectName",
+        "metadata": {
+          "description": "Tag name to enforce",
+          "displayName": "Tag Name"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "exists": "false"
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  }
+}
