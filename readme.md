@@ -130,23 +130,25 @@ This document outlines policy definitions, assignment steps, testing commands, a
     - Image	Choose any (e.g., Ubuntu 20.04 LTS)
     - Size	Keep default (unless you're testing SKU restriction policy)
     - Public inbound ports	Allow selected ports (e.g., SSH 22)
-      [VM-Default_configurations](images/policies-testing.png)  
+    ![VM-Default_configurations](images/policies-testing.png)  
     
 Expected: ❌ Denied – Not Canada Central
 
 2. ❌ Changed the region to Canada Central – Should Fail cause remaining policies block
-     [CA-location-changes](images/Location-CA.png) 
+    ![CA-location-changes](images/Location-CA.png) 
 Expected: ❌ Denied – Missing required tag, PublicIP should be disabled.
 
 3. ❌ Create Public IP Address – Should Fail
-      [PublicIP-diabled](images/PublicIP-None.png) 
+    ![PublicIP-diabled](images/PublicIP-None.png) 
 Expected: ❌ Denied – Tag Needed(ProjectName)
 
-5. ✅ Deploy VM in Canada Central with ProjectName Tag – Should Succeed
+4. ✅ Deploy VM in Canada Central with ProjectName Tag – Should Succeed
 
-   [Successful-deployement](images/Successfull-deployement.png) 
+   ![Tag-added](images/Added-tag.png) 
 
 Expected: ✅ Allowed – Region and tag compliant, no public IP
+
+ ![Successful-deployement](images/Successfull-deployement.png) 
 
 ### Demo Video (10 mins)
 [Watch the 5-minute demo on YouTube](https://www.youtube.com/watch?v=kBe15CSoZaU)
