@@ -1,8 +1,6 @@
 # Lab 3: Enforcing Organizational Policies in the Cloud
 **Course**: CST8919 – DevOps Security and Compliance  
-**Company**: MapleTech Solutions  
-**Resource Group**: `MTS-project1-RG`  
-**Role**: Cloud Security Engineer  
+**Submitted by**: Ajay Morla
 
 ---
 
