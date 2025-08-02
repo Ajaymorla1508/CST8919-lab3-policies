@@ -121,77 +121,35 @@ This document outlines policy definitions, assignment steps, testing commands, a
     - Enforcement Mode: Enabled
 
 ### 🛠️ Policy Assignment & Testing (VS Code)
-- Prerequisites
-```bash
-    az login
-    az account set --subscription "<your-subscription-id>"
-```
-### Test Cases and Commands
-- 1. ❌ Deploy VM in East US – Should Fail
-    ```bash
-    az vm create \
-    --resource-group MTS-project1-RG \
-    --name eastus-vm \
-    --image UbuntuLTS \
-    --location eastus \
-    --admin-username azureuser \
-    --generate-ssh-keys
-    ```
+#### Test Cases and Commands
+1. ❌ Deploying VM with default settings – Should Fail cause of policy-intiative
+    - Resource Group: MTS-project1-RG 
+    - Virtual machine name:	PolicyTestVM
+    - Region: Selected(Sweden-Central)
+    - Availability options	Leave default
+    - Image	Choose any (e.g., Ubuntu 20.04 LTS)
+    - Size	Keep default (unless you're testing SKU restriction policy)
+    - Public inbound ports	Allow selected ports (e.g., SSH 22)
+      [VM-Default_configurations](images/policies-testing.png)  
+    
 Expected: ❌ Denied – Not Canada Central
 
-2. ❌ Create Storage Account Without ProjectName Tag – Should Fail
-    ```bash
-    az storage account create \
-    --name mtslabstorage \
-    --resource-group MTS-project1-RG \
-    --location canadacentral \
-    --sku Standard_LRS
-    ```
-Expected: ❌ Denied – Missing required tag
+2. ❌ Changed the region to Canada Central – Should Fail cause remaining policies block
+     [CA-location-changes](images/Location-CA.png) 
+Expected: ❌ Denied – Missing required tag, PublicIP should be disabled.
 
 3. ❌ Create Public IP Address – Should Fail
-    ```bash
-    az network public-ip create \
-    --resource-group MTS-project1-RG \
-    --name public-ip-test \
-    --location canadacentral
-    ```
-Expected: ❌ Denied – Public IP creation blocked
+      [PublicIP-diabled](images/PublicIP-None.png) 
+Expected: ❌ Denied – Tag Needed(ProjectName)
 
-4. ✅ Deploy VM in Canada Central with ProjectName Tag – Should Succeed
-    ```bash
-    az vm create \
-    --resource-group MTS-project1-RG \
-    --name secure-vm \
-    --image UbuntuLTS \
-    --location canadacentral \
-    --tags ProjectName=PolicyLab \
-    --public-ip-address "" \
-    --admin-username azureuser \
-    --generate-ssh-keys
-    ```
+5. ✅ Deploy VM in Canada Central with ProjectName Tag – Should Succeed
+
+   [Successful-deployement](images/Successfull-deployement.png) 
+
 Expected: ✅ Allowed – Region and tag compliant, no public IP
 
-📂 Folder Structure for Submission
-```pgsql
-/policy-lab
-│
-├── README.md                     # This file
-├── screenshots/
-│   ├── denied-eastus.png
-│   ├── no-tag-storage.png
-│   ├── public-ip-denied.png
-│   ├── allowed-vm.png
-│
-├── policy-definitions/
-│   ├── only-canadacentral.json
-│   ├── require-projectname-tag.json
-│   ├── deny-public-ip.json
-│
-└── video-demo.txt         
-```   
 ### Demo Video (10 mins)
-[Watch the 5-minute demo on YouTube](https://www.youtube.com/watch?v=QrMHR35nZAk)
+[Watch the 5-minute demo on YouTube](https://www.youtube.com/watch?v=kBe15CSoZaU)
 
 ### 🧠 Lessons Learned
 - Azure Policy is powerful for organization-wide governance.
